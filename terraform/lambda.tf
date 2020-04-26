@@ -9,6 +9,20 @@ data "archive_file" "init" {
   output_path = local.lambda_build
 }
 
+resource "aws_lambda_function" "status" {
+  filename      = local.lambda_build
+  function_name = "status"
+  role          = aws_iam_role.role.arn
+  handler       = "handlers.status"
+  source_code_hash = filebase64sha256(local.lambda_build)
+  runtime = "nodejs12.x"
+  environment {
+    variables = {
+      INSTANCE_ID = aws_instance.minecraft.id
+    }
+  }
+}
+
 resource "aws_lambda_function" "start" {
   filename      = local.lambda_build
   function_name = "start"
