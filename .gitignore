@@ -1,3 +1,4 @@
 /terraform/.terraform/
 /terraform/private.tf
 /lambda/build.zip
+/lambda/node_modules
